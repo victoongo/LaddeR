@@ -1,3 +1,5 @@
+# doParallel do NOT work on Windows!
+
 library(doParallel)
 cl <- makeCluster(2)
 registerDoParallel(cl)
