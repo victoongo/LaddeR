@@ -1,7 +1,7 @@
-# doParallel do NOT work on Windows!
+# doParallelDO work in Windows!
 
 library(doParallel)
-cl <- makeCluster(2)
+cl <- makeCluster(4)
 registerDoParallel(cl)
 foreach(i=1:3) %dopar% {
   d <- sqrt(i)
