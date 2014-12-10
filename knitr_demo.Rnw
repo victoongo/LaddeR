@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage[cm]{fullpage}
+
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+1, Example text outside R code here; we know the value of pi is \Sexpr{pi}.
+
+<<my-label1, eval=TRUE, dev='png'>>=
+set.seed(1213)  # for reproducibility
+a = rnorm(100)
+a
+x = cumsum(a)
+x
+mean(x)  # mean of x
+plot(x, type = 'l')  # Brownian motion
+@
+
+2, Other text outside R code here.
+
+<<my-label2, eval=FALSE, dev='png', cache=TRUE, echo=TRUE, include=TRUE>>=
+set.seed(41213)  # for reproducibility
+b = rnorm(100)
+b
+y = cumprod(b)
+y
+mean(y)  # mean of x
+plot(y, type = 'l')  # Brownian motion
+@
+
+3, the end of the program 
+
+\end{document}
