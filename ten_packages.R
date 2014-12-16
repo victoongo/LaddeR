@@ -1,4 +1,4 @@
-
+ 
 # 2 forecast
 library(forecast)
 
@@ -9,7 +9,7 @@ forecast(fit, level=c(80, 95, 99), h=3)
 plot(forecast(fit), shadecols="oldstyle")
 
 
-# plyr
+# 3 plyr
 library(plyr)
 # split a data frame by Species, summarize it, then convert the results into a data frame
 ddply(iris, .(Species), summarise, mean_petal_length=mean(Petal.Length))
@@ -18,7 +18,16 @@ ddply(iris, .(Species), summarise, mean_petal_length=mean(Petal.Length))
 unlist(daply(iris[,4:5], .(Species), colwise(mean)))
 
 
-# reshape2
+# 8 qcc
+library(qcc)
+# series of values w/ mean of 10 with a little random noise added in 
+x <- rep(10, 100) + rnorm(100)
+# a test series wi/ a mean of 11
+new.x <- rep(11, 15) + rnorm(15)
+# qcc will flag the new points
+qcc(x, newdata=new.x, type="xbar.one")
+
+# 9 reshape2
 library(reshape2)
 # generate a unique id for each row: this let's us go back to wide format later
 iris$id <- 1:nrow(iris)
@@ -39,7 +48,7 @@ p + geom_histogram() +
 library(randomForest)
 
 # download Titanic Survivors data
-data <- read.table("http://mathucdenver.edu/RTutorial/titanic.txt", h=T, sep="\t")
+data <- read.table("http://math.ucdenver.edu/RTutorial/titanic.txt", h=T, sep="\t")
 # make survived into a yes/no
 data$Survived <- as.factor(ifelse(data$Survived==1, "yes", "no"))
 
@@ -48,7 +57,7 @@ idx <- runif(nrow(data)) <= .75
 data.train <- data[idx,]
 data.test <- data[-idx,]
 
-# tain a random forest
+# train a random forest
 rf <- randomForest(Survived ~ PClass + Age + Sex, 
     data=data.train, Importance=TRUE, na.action=na.omit)
 
