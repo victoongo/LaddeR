@@ -22,7 +22,7 @@ plot(x, type = 'l')  # Brownian motion
 
 2, Other text outside R code here.
 
-<<my-label2, eval=FALSE, dev='png', cache=TRUE, echo=TRUE, include=TRUE>>=
+<<my-label2, eval=FALSE, dev='png', cache=TRUE, echo=FALSE, include=TRUE>>=
 set.seed(41213)  # for reproducibility
 b = rnorm(100)
 b
