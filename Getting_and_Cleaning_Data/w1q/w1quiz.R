@@ -4,7 +4,7 @@ library(xlsx)
 library(RCurl)
 library(XML)
 
-setwd("~/Projects/LaddeR/Getting_and_Cleaning_Data/")
+setwd("~/Projects/LaddeR/Getting_and_Cleaning_Data/w1q")
 
 # csv
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
