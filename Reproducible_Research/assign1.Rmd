@@ -1,0 +1,71 @@
+---
+title: "RepData_PeerAssessment1"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+setwd('~/Projects/Ladder/Reproducible_Research')
+dir()
+acti <- read.csv('activity.csv', header=T, as.is=T)
+head(acti)
+acti$date <- as.Date(acti$date)
+
+
+actd <- aggregate(steps~date, data=act, FUN='sum', na.rm=TRUE)
+acta <- aggregate(steps~date, data=act, FUN='mean', na.rm=TRUE)
+hist(actd$steps)
+daydes <- summary(actd$steps)
+
+
+actt <- aggregate(steps~interval, data=act, FUN='mean', na.rm=TRUE)
+with(actt,plot(interval,steps,type="l",xlab="",ylab="Number of Steps"))
+# actt[order(actt$steps),][length(actt$steps),1]
+actt[order(actt$steps,decreasing=T),][1,1]
+
+
+# summary(acti$steps)[[7]]
+# length(which(is.na(acti$steps)))
+# count(is.na(acti$steps))[2,2]
+# table(is.na(acti$steps))[[2]]
+sum(is.na(acti$steps))
+
+actimp <- merge(act, actt, by = "interval", all=T)
+actimp$steps.x[is.na(actimp$steps.x)] <-  actimp$steps.y[is.na(actimp$steps.x)]
+summary(actimp)
+names(actimp)[2] <- 'steps'
+
+actimpd <- aggregate(steps~date, data=actimp, FUN='sum')
+hist(actimpd$steps)
+dayimpdes <- summary(actimpd$steps)
+
+
+actimp$weekday <- weekdays(actimp$date)
+actimp$weekday_dummy <- replace(actimp$weekday, actimp$weekday %in% c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'), 'weekday')
+actimp$weekday_dummy <- replace(actimp$weekday_dummy, actimp$weekday_dummy %in% c('Saturday', 'Sunday'), 'weekend')
+actimp$weekday_dummy <- as.factor(actimp$weekday_dummy)
+actimps <- split(actimp, actimp$weekday_dummy)
+# actimpsi <- data.frame(lapply(actimps, function(x) aggregate(steps~interval, data=x, FUN='mean', na.rm=TRUE)))
+# actimpsi$weekend.interval <- NULL
+# names(actimpsi)[1] <- 'interval'
+# actimpi <- reshape(actimpsi, idvar='interval', v.names='steps', varying=list(2:3), direction="long")
+actimpsi <- lapply(actimps, function(x) aggregate(steps~interval, data=x, FUN='mean', na.rm=TRUE))
+actimpsi[['weekday']]$weekday_dummy <- 'weekday'
+actimpsi[['weekend']]$weekday_dummy <- 'weekend'
+actimpi <- rbind(actimpsi[[1]],actimpsi[[2]])
+
+library(lattice)
+xyplot(steps~interval | weekday_dummy, data=actimpi, type='l', layout=c(1,2), xlab="Interval", ylab="Number of steps")
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
