@@ -10,7 +10,7 @@ outcome <- list('price')
 outcome[1]
 for (var in outcome) {
   print(var)
-x  test <- qplot(carat, diamonds[,var], data=diamonds)
+  test <- qplot(carat, diamonds[,var], data=diamonds)
   test
   summary(test)
 }
