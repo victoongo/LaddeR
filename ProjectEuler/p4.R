@@ -18,11 +18,13 @@ revable <- function(n) {
 }
 # revable(323456456)
 
-x <- 1000:9999
-y <- 1000:9999
+x <- 100:999
+y <- 100:999
 z <- unique(unlist(lapply(x, function(x) x*y)))
+z <- z[order(z)]
 
 for (i in length(z):1) {
+  print(z[i])
   if (revable(z[i])) {
     print(z[i])
     break
