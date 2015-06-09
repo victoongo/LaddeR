@@ -81,3 +81,19 @@ products2 <- function(n_of_product) {
 }
 max(products2(4))
 max(products2(13))
+
+
+max_product <- function(n_of_product, num_list) {
+  max_product <- 0
+  index <- 1
+  while (index + n_of_product < length(num_list)) {
+    product <- prod(num_list[index:(index+n_of_product-1)])
+    if (product > max_product) {
+      max_product <- product
+    }
+    index <- index + 1
+  }
+  return(max_product)
+}
+max_product(4, num_list)
+max_product(13, num_list)
